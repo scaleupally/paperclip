@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.paperclipai.dev</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd /Users/rsieb/gits/priopilot &amp;&amp; pnpm start</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/rsieb/gits/priopilot</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/com.paperclipai.dev.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.paperclipai.dev.stderr.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/rsieb/.local/share/mise/shims:/System/Cryptexes/App/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pkg/env/active/bin:/opt/pmk/env/global/bin:/Users/rsieb/.orbstack/bin:/Users/rsieb/.local/share/mise/installs/elixir/1.17.3-otp-27/bin:/Users/rsieb/.local/share/mise/installs/elixir/1.17.3-otp-27/.mix/escripts:/Users/rsieb/.local/share/mise/installs/erlang/27.3.1/bin:/Users/rsieb/.local/share/mise/installs/node/24.14.0/bin:/Users/rsieb/.local/share/mise/installs/ruby/3.4.8/bin:/Users/rsieb/.cargo/bin:/opt/homebrew/opt/mise/bin:/Users/rsieb/.local/bin:/Users/rsieb/Dropbox/Library/bin:/Users/rsieb/.bun/bin:/Users/rsieb/Library/pnpm:/opt/homebrew/bin:/Library/TeX/texbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>DATABASE_URL</key>
+        <string>postgres://paperclip:paperclip@localhost:5432/paperclip</string>
+    </dict>
+</dict>
+</plist>
