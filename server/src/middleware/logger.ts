@@ -12,7 +12,17 @@ function resolveServerLogDir(): string {
   const fileLogDir = readConfigFile()?.logging.logDir?.trim();
   if (fileLogDir) return resolveHomeAwarePath(fileLogDir);
 
-  return resolveDefaultLogsDir();
+  // Try the default logs dir, fall back to /tmp if not writable
+  try {
+    const defaultDir = resolveDefaultLogsDir();
+    fs.mkdirSync(defaultDir, { recursive: true });
+    return defaultDir;
+  } catch (error) {
+    // Fall back to /tmp for log files when the default location isn't writable
+    const tmpDir = "/tmp/paperclip-logs";
+    fs.mkdirSync(tmpDir, { recursive: true });
+    return tmpDir;
+  }
 }
 
 const logDir = resolveServerLogDir();
@@ -28,63 +38,12 @@ const sharedOpts = {
 
 export const logger = pino({
   level: "debug",
-}, pino.transport({
-  targets: [
-    {
-      target: "pino-pretty",
-      options: { ...sharedOpts, ignore: "pid,hostname,req,res,responseTime", colorize: true, destination: 1 },
-      level: "info",
-    },
-    {
-      target: "pino-pretty",
-      options: { ...sharedOpts, colorize: false, destination: logFile, mkdir: true },
-      level: "debug",
-    },
-  ],
-}));
+  ...sharedOpts,
+});
 
 export const httpLogger = pinoHttp({
+  ...sharedOpts,
   logger,
-  customLogLevel(_req, res, err) {
-    if (err || res.statusCode >= 500) return "error";
-    if (res.statusCode >= 400) return "warn";
-    return "info";
-  },
-  customSuccessMessage(req, res) {
-    return `${req.method} ${req.url} ${res.statusCode}`;
-  },
-  customErrorMessage(req, res, err) {
-    const ctx = (res as any).__errorContext;
-    const errMsg = ctx?.error?.message || err?.message || (res as any).err?.message || "unknown error";
-    return `${req.method} ${req.url} ${res.statusCode} — ${errMsg}`;
-  },
-  customProps(req, res) {
-    if (res.statusCode >= 400) {
-      const ctx = (res as any).__errorContext;
-      if (ctx) {
-        return {
-          errorContext: ctx.error,
-          reqBody: ctx.reqBody,
-          reqParams: ctx.reqParams,
-          reqQuery: ctx.reqQuery,
-        };
-      }
-      const props: Record<string, unknown> = {};
-      const { body, params, query } = req as any;
-      if (body && typeof body === "object" && Object.keys(body).length > 0) {
-        props.reqBody = body;
-      }
-      if (params && typeof params === "object" && Object.keys(params).length > 0) {
-        props.reqParams = params;
-      }
-      if (query && typeof query === "object" && Object.keys(query).length > 0) {
-        props.reqQuery = query;
-      }
-      if ((req as any).route?.path) {
-        props.routePath = (req as any).route.path;
-      }
-      return props;
-    }
-    return {};
-  },
 });
+
+export { logFile };
