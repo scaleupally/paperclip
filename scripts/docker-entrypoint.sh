@@ -22,8 +22,8 @@ if [ "$(id -g node)" -ne "$PGID" ]; then
     changed=1
 fi
 
-if [ "$changed" = "1" ]; then
-    chown -R node:node /paperclip
-fi
+# Always ensure the volume is writable by node. On cloud platforms (Fly.io),
+# volumes mount as root-owned even when UID/GID hasn't changed.
+chown -R node:node /paperclip
 
 exec gosu node "$@"
