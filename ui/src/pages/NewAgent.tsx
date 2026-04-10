@@ -59,6 +59,7 @@ export function NewAgent() {
 
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
+  const [mission, setMission] = useState("");
   const [role, setRole] = useState("general");
   const [reportsTo, setReportsTo] = useState<string | null>(null);
   const [configValues, setConfigValues] = useState<CreateConfigValues>(defaultCreateValues);
@@ -171,6 +172,7 @@ export function NewAgent() {
       name: name.trim(),
       role: effectiveRole,
       ...(title.trim() ? { title: title.trim() } : {}),
+      ...(mission.trim() ? { capabilities: mission.trim() } : {}),
       ...(reportsTo ? { reportsTo } : {}),
       ...(selectedSkillKeys.length > 0 ? { desiredSkills: selectedSkillKeys } : {}),
       adapterType: configValues.adapterType,
@@ -227,6 +229,17 @@ export function NewAgent() {
             placeholder="Title (e.g. VP of Engineering)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        {/* Mission */}
+        <div className="px-4 pb-3">
+          <textarea
+            className="w-full bg-transparent outline-none text-sm text-muted-foreground placeholder:text-muted-foreground/40 resize-none"
+            placeholder="Mission — What is the big gap you want this agent to fill? Think longer term (2–3 years)"
+            rows={3}
+            value={mission}
+            onChange={(e) => setMission(e.target.value)}
           />
         </div>
 
