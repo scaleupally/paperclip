@@ -244,7 +244,12 @@ async function buildClaudeRuntimeConfig(input: ClaudeExecutionInput): Promise<Cl
   }
 
   for (const [key, value] of Object.entries(envConfig)) {
-    if (typeof value === "string") env[key] = value;
+    if (typeof value === "string") {
+      env[key] = value;
+    } else if (typeof value === "object" && value !== null && (value as Record<string, unknown>).type === "plain") {
+      const v = (value as Record<string, unknown>).value;
+      if (typeof v === "string") env[key] = v;
+    }
   }
 
   if (!hasExplicitApiKey && authToken) {

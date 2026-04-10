@@ -76,7 +76,12 @@ export async function testEnvironment(
   const envConfig = parseObject(config.env);
   const env: Record<string, string> = {};
   for (const [key, value] of Object.entries(envConfig)) {
-    if (typeof value === "string") env[key] = value;
+    if (typeof value === "string") {
+      env[key] = value;
+    } else if (typeof value === "object" && value !== null && (value as Record<string, unknown>).type === "plain") {
+      const v = (value as Record<string, unknown>).value;
+      if (typeof v === "string") env[key] = v;
+    }
   }
   const runtimeEnv = ensurePathInEnv({ ...process.env, ...env });
   try {
