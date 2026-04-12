@@ -1,0 +1,85 @@
+# Roadmap: Paperclip — Roland's Venture OS
+
+## Overview
+
+This milestone takes Paperclip from a working-but-undeployed agent orchestration platform to a production system where AI agents receive rich role context (mission, job description, goals) when executing work. The path is: fix deployment so changes reach production, extend the data model with role fields, wire those fields into agent prompts, then give the user a UI to manage it all.
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+Decimal phases appear between their surrounding integers in numeric order.
+
+- [ ] **Phase 1: Production Infrastructure** - Fix deployment pipeline, connect managed Postgres, verify app boots in production
+- [ ] **Phase 2: Role Schema + API** - Add role context fields to agents table and expose via API
+- [ ] **Phase 3: Agent Context Injection** - Wire role context into env vars and adapter prompt templates
+- [ ] **Phase 4: UI + Polish** - Agent detail form for role context editing and AI-generated role suggestions
+
+## Phase Details
+
+### Phase 1: Production Infrastructure
+**Goal**: Production deployment works end-to-end -- pushes to master reach Fly.io, the app boots with managed Postgres, and ventures are configured
+**Depends on**: Nothing (first phase)
+**Requirements**: DEPLOY-01, DEPLOY-02, DEPLOY-03, DEPLOY-04, DEPLOY-05
+**Success Criteria** (what must be TRUE):
+  1. Pushing to `master` triggers a GitHub Actions deploy that reaches the Fly.io app (`paperclip-icy-fog-8513`)
+  2. The production app connects to a Fly.io managed Postgres cluster (not embedded PGLite)
+  3. The production app boots without runtime errors, auth works, and health check endpoint responds
+  4. Three workspaces exist in production: Midstage Institute, Scale-up Allies, and the podcast
+**Plans**: TBD
+
+Plans:
+- [ ] 01-01: TBD
+
+### Phase 2: Role Schema + API
+**Goal**: Agents have mission, job description, and goals as first-class data -- queryable and editable via API
+**Depends on**: Phase 1
+**Requirements**: ROLE-01, ROLE-02, ROLE-03
+**Success Criteria** (what must be TRUE):
+  1. An agent record can store mission, job_description, and role_goals (nullable text columns, no breaking changes to existing agents)
+  2. GET /agents/:id returns the new role context fields
+  3. PUT /agents/:id accepts and persists mission, job_description, and role_goals values
+**Plans**: TBD
+
+Plans:
+- [ ] 02-01: TBD
+
+### Phase 3: Agent Context Injection
+**Goal**: When an agent picks up work, it receives its full role context in the execution environment -- not just a role name
+**Depends on**: Phase 2
+**Requirements**: CTX-01, CTX-02, CTX-03
+**Success Criteria** (what must be TRUE):
+  1. Agent execution environment includes `PAPERCLIP_AGENT_MISSION`, `PAPERCLIP_AGENT_JOB_DESCRIPTION`, and `PAPERCLIP_AGENT_GOALS` env vars (available to all adapters)
+  2. Claude adapter system prompt includes the agent's mission, job description, and goals when those fields are populated
+  3. Agents with empty/null role context fields execute normally -- no broken prompts, no empty sections in system prompt
+**Plans**: TBD
+
+Plans:
+- [ ] 03-01: TBD
+
+### Phase 4: UI + Polish
+**Goal**: Users can view and edit agent role context through the web interface, with AI assistance for generating initial role definitions
+**Depends on**: Phase 2
+**Requirements**: UI-01, UI-02
+**Success Criteria** (what must be TRUE):
+  1. AgentDetail page has text area inputs for mission, job description, and goals that save via the existing agent PUT endpoint
+  2. An "AI Suggest" button generates proposed mission, job description, and goals based on the agent's role name -- editable before saving
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 04-01: TBD
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Production Infrastructure | 0/? | Not started | - |
+| 2. Role Schema + API | 0/? | Not started | - |
+| 3. Agent Context Injection | 0/? | Not started | - |
+| 4. UI + Polish | 0/? | Not started | - |
