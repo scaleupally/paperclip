@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-04-13T06:30:37.296Z",
+  "phase": "01",
+  "phase_name": "production-infrastructure",
+  "phase_dir": ".planning/phases/01-production-infrastructure",
+  "plan": 2,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Fix CI branch trigger (master not main)", "status": "done", "commit": "2577aeb4"},
+    {"id": 2, "name": "Remove PGLite mount, attach managed Postgres", "status": "done", "commit": "7cef2fe3"},
+    {"id": 3, "name": "Fix health check path (/api/health)", "status": "done", "commit": "2577aeb4"},
+    {"id": 4, "name": "Fix FLY_API_TOKEN secret", "status": "done", "commit": "7320"},
+    {"id": 5, "name": "Fix deployment exposure (public)", "status": "done", "commit": "7322"},
+    {"id": 6, "name": "Bootstrap admin account via SSH console", "status": "done", "commit": "6bc7fe48"},
+    {"id": 7, "name": "Add custom domain agents.midstage.ac", "status": "done", "commit": "6bc7fe48"},
+    {"id": 8, "name": "Restore /paperclip volume mount", "status": "done", "commit": "75df9364"},
+    {"id": 9, "name": "Install paperclip-plugin-slack", "status": "done", "commit": "560e3651"}
+  ],
+  "remaining_tasks": [
+    {"id": 10, "name": "Verify Slack notifications working (invite bot to channel)", "status": "not_started"},
+    {"id": 11, "name": "Fix Event Subscriptions (url_verification challenge passthrough)", "status": "not_started"}
+  ],
+  "blockers": [
+    {
+      "description": "Slack notifications not yet confirmed working — bot likely not invited to channel",
+      "type": "human_action",
+      "workaround": "Run /invite @Paperclip in the Slack channel first, then test"
+    },
+    {
+      "description": "Event Subscriptions URL verification fails — Paperclip webhook route returns {deliveryId,status} instead of challenge echo",
+      "type": "technical",
+      "workaround": "Use button-based approvals (already working) instead of free-text replies"
+    }
+  ],
+  "human_actions_pending": [
+    {"action": "Run /invite @Paperclip in Slack notification channel", "context": "Bot cannot post until invited", "blocking": true},
+    {"action": "Test notification by completing an issue or requesting approval", "context": "Verify plugin is working end-to-end", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Restore [[mounts]] for /paperclip volume", "rationale": "Standard Paperclip deployment pattern; stores plugins, config, agent state", "phase": "01"},
+    {"decision": "Install Slack plugin via UI not code", "rationale": "Plugin system installs to persistent volume; no code change needed", "phase": "01"},
+    {"decision": "Skip Event Subscriptions for now", "rationale": "Core notifications and approval buttons work without it; fix deferred to Tue", "phase": "01"},
+    {"decision": "Use button-based approvals not free-text replies", "rationale": "Works today without Event Subscriptions fix", "phase": "01"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "In Slack: run /invite @Paperclip in the notification channel, then trigger a test by completing an issue",
+  "context_notes": "Phase 1 production infrastructure is complete. The Slack plugin install was bonus work in this session. Two items remain: confirming notifications work (likely just needs /invite) and fixing Event Subscriptions (a server-side code change for Tue/Wed). Phase 1.5 (Weekly Planning Agent) is next on the roadmap."
+}
