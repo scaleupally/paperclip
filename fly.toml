@@ -23,6 +23,10 @@ primary_region = 'sjc'
     path = "/api/health"
     timeout = "5s"
 
+[[mounts]]
+  source = "paperclip"
+  destination = "/paperclip"
+
 [[vm]]
   memory = '1gb'
   cpus = 1
