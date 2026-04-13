@@ -15,7 +15,7 @@ Phase 1 gets the existing app fully operational in production: CI/CD reliably de
 1. page: GitHub Actions tab (repo → Actions)
    Push a commit to `master` → "Fly Deploy" workflow triggers and completes green within ~3 minutes
 
-2. page: https://agents.midstage.ac/health (or equivalent health route)
+2. page: https://agents.midstage.ac/api/health
    GET the health endpoint → 200 OK response; Fly.io health check passes, no rollback triggered
 
 3. page: `fly logs -a paperclip-icy-fog-8513`
