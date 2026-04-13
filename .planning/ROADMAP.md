@@ -21,7 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Production Infrastructure
-**Goal**: Production deployment works end-to-end -- pushes to master reach Fly.io, the app boots with managed Postgres, and ventures are configured
+**Goal**: Production deployment works end-to-end -- pushes to master reach Fly.io, the app boots with managed Postgres, custom domain agents.midstage.ac live, and three venture workspaces configured
 **Depends on**: Nothing (first phase)
 **Requirements**: DEPLOY-01, DEPLOY-02, DEPLOY-03, DEPLOY-04, DEPLOY-05
 **Success Criteria** (what must be TRUE):
@@ -29,10 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. The production app connects to a Fly.io managed Postgres cluster (not embedded PGLite)
   3. The production app boots without runtime errors, auth works, and health check endpoint responds
   4. Three workspaces exist in production: Midstage Institute, Scale-up Allies, and the podcast
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Fix CI branch, remove PGLite mount, add health checks, deploy and verify
+- [ ] 01-02-PLAN.md — Bootstrap admin, create workspaces, configure custom domain
 
 ### Phase 1.5: Weekly Planning Agent (INSERTED)
 **Goal**: A weekly planning agent runs end-to-end in the Midstage Institute workspace — reads the quarterly plan, collects status from team members, produces a Tuesday meeting report, and suggests agenda order for the 45-minute meeting window
@@ -96,7 +97,7 @@ Phases execute in numeric order: 1 -> 1.5 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Production Infrastructure | 0/? | Not started | - |
+| 1. Production Infrastructure | 0/2 | Planning complete | - |
 | 1.5. Weekly Planning Agent (INSERTED) | 0/? | Not started | - |
 | 2. Role Schema + API | 0/? | Not started | - |
 | 3. Agent Context Injection | 0/? | Not started | - |
