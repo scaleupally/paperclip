@@ -12,7 +12,8 @@ This milestone takes Paperclip from a working-but-undeployed agent orchestration
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Production Infrastructure** - Fix deployment pipeline, connect managed Postgres, verify app boots in production
+- [ ] **Phase 1: Production Infrastructure** - Fix deployment pipeline, connect managed Postgres, custom domain, verify app boots in production
+- [ ] **Phase 1.5: Weekly Planning Agent** (INSERTED) - First Midstage AI agent running end-to-end in production
 - [ ] **Phase 2: Role Schema + API** - Add role context fields to agents table and expose via API
 - [ ] **Phase 3: Agent Context Injection** - Wire role context into env vars and adapter prompt templates
 - [ ] **Phase 4: UI + Polish** - Agent detail form for role context editing and AI-generated role suggestions
@@ -32,6 +33,22 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [ ] 01-01: TBD
+
+### Phase 1.5: Weekly Planning Agent (INSERTED)
+**Goal**: A weekly planning agent runs end-to-end in the Midstage Institute workspace — reads the quarterly plan, collects status from team members, produces a Tuesday meeting report, and suggests agenda order for the 45-minute meeting window
+**Depends on**: Phase 1 (production infrastructure live)
+**Requirements**: (new — to be defined in discuss-phase)
+**Success Criteria** (what must be TRUE):
+  1. A "Weekly Planning" agent exists in the Midstage Institute workspace with appropriate adapter configured
+  2. Agent reads or requests the quarterly plan
+  3. Agent contacts team members and collects status on their items
+  4. Agent produces a status report formatted for the Tuesday weekly meeting
+  5. Agent suggests a prioritized discussion order fitting a 45-minute agenda
+  6. Full first run completes without error in production
+**Plans**: TBD
+
+Plans:
+- [ ] 1.5-01: TBD
 
 ### Phase 2: Role Schema + API
 **Goal**: Agents have mission, job description, and goals as first-class data -- queryable and editable via API
@@ -75,11 +92,12 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 1.5 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Production Infrastructure | 0/? | Not started | - |
+| 1.5. Weekly Planning Agent (INSERTED) | 0/? | Not started | - |
 | 2. Role Schema + API | 0/? | Not started | - |
 | 3. Agent Context Injection | 0/? | Not started | - |
 | 4. UI + Polish | 0/? | Not started | - |

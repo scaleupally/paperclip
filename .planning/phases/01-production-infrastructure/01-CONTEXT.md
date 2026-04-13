@@ -33,6 +33,12 @@ No external ADRs or specs referenced for this phase.
 ### Health Check (DEPLOY-03)
 **Decision:** Claude's Discretion — planner determines whether a `/health` route already exists in the app or needs to be added, then adds a `[checks]` section to `fly.toml`.
 
+### Custom Domain
+**Decision:** Configure `agents.midstage.ac` as a custom domain on the Fly.io app.
+- Roland controls DNS for midstage.ac
+- Add CNAME record pointing to Fly.io, configure certificate via `fly certs add agents.midstage.ac`
+- Both `agents.midstage.ac` and `paperclip-icy-fog-8513.fly.dev` should work
+
 ### Workspace Seeding (DEPLOY-05)
 **Decision:** Claude's Discretion — planner determines the right seeding mechanism (seed script, CLI, or UI steps) based on how the app manages workspace creation.
 - Three workspaces required: **Midstage Institute**, **Scale-up Allies**, **podcast**
@@ -42,7 +48,10 @@ No external ADRs or specs referenced for this phase.
 - Do not run database migrations from embedded PGLite to managed Postgres (out of scope)
 - Do not add role schema changes in this phase (Phase 2)
 - Do not configure per-venture Fly.io deployments (explicitly out of scope)
+- Do not build the weekly planning agent — that is Phase 1.5 (inserted after this phase)
 
 ## Deferred Ideas
 
-None captured during discussion.
+- **Weekly planning agent (Midstage Institute)** → Phase 1.5 (INSERTED)
+  - 4-step workflow: reads quarterly plan → chats with team members for status → pulls together Tuesday meeting report → suggests agenda order for 45-minute meeting
+  - Full first run must complete successfully before Phase 1.5 is done
