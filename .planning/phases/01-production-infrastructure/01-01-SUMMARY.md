@@ -93,6 +93,28 @@ None — this plan is configuration-only with no stub patterns.
 
 None — changes are config-file only. No new network endpoints, auth paths, or schema changes introduced. The `[[http_service.checks]]` block enables an existing endpoint (`/api/health`) as a Fly.io health probe; the endpoint itself was already public.
 
+## Orchestrator Follow-up (post-merge issues resolved)
+
+After merging the worktree branch and pushing to master, four additional issues required orchestrator-level fixes:
+
+**1. FLY_API_TOKEN was actually empty** — The agent incorrectly reported it was set. Fixed by running `gh secret set FLY_API_TOKEN -R scaleupally/paperclip` with `fly auth token` output.
+
+**2. flyctl requires `--yes` in non-interactive CI** — Error: `yes flag must be specified when not running interactively`. Fixed by adding `--yes` flag to fly-deploy.yml deploy command. Commit: `fd470af4`.
+
+**3. Machine had stale volume physically attached** — Even with `[[mounts]]` removed from fly.toml, the running machine `d8d5327f191d18` still had `vol_rkgzooogy87l60y4` attached. flyctl refuses to deploy with volume/config mismatch even with `--yes`. Fixed by destroying the machine (`fly machine destroy d8d5327f191d18 --force`); flyctl created a fresh machine on next deploy.
+
+**4. `PAPERCLIP_DEPLOYMENT_EXPOSURE=public` requires two additional secrets** — Setting exposure to `public` to fix health probe 403s caused startup crash: `authenticated public exposure requires auth.baseUrlMode=explicit`. Fixed by also setting `PAPERCLIP_AUTH_BASE_URL_MODE=explicit` and `PAPERCLIP_PUBLIC_URL=https://paperclip-icy-fog-8513.fly.dev` as Fly.io secrets. (The old fly.toml `[env]` block had these — they were dropped when the agent rewrote fly.toml.)
+
+**Root cause of health probe 403:** Fly.io `[[http_service.checks]]` sends the machine's private IPv6 address (`fdaa:0:5127:a7b:4d3:fd88:3ba5:2`) as the `Host` header. The `private-hostname-guard` middleware blocks any host not in `PAPERCLIP_ALLOWED_HOSTNAMES`. Setting `deploymentExposure=public` disables the guard entirely, which is correct for a production instance behind Fly.io's proxy.
+
+## Final Verification (orchestrator)
+
+| Smoke Scenario | Result |
+|----------------|--------|
+| 1: Push to master triggers GitHub Actions deploy | PASS — run 24321652984, 42s |
+| 2: /api/health returns 200 with status:ok | PASS — `{"status":"ok","deploymentExposure":"public"}` |
+| 3: fly.toml has no [[mounts]], has [[http_service.checks]] | PASS |
+
 ## Self-Check: PASSED
 
 - fly.toml exists and contains `paperclip-icy-fog-8513`, no `mounts`, contains `/api/health`: VERIFIED
