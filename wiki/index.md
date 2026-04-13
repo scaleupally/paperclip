@@ -14,3 +14,4 @@ _Mode C — Decision Graph | Last updated: 2026-04-12 | Sources: 21 files | Deci
 | [role-context.md](decisions/role-context.md) | Role Context System | mission/job_description/role_goals columns; env var injection; AI-generated defaults |
 | [project-scope.md](decisions/project-scope.md) | Project Scope | One shared Fly.io instance; AI agents only; 5 out-of-scope items |
 | [phase-strategy.md](decisions/phase-strategy.md) | Phase Strategy | Order: 1→1.5→2→3→4; Phase 4 depends on Phase 2 (not 3) |
+| [slack-plugin.md](decisions/slack-plugin.md) | Slack Plugin | paperclip-plugin-slack installed; Event Subscriptions deferred; /invite @Paperclip needed |
