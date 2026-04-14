@@ -102,3 +102,15 @@ Phases execute in numeric order: 1 -> 1.5 -> 2 -> 3 -> 4
 | 2. Role Schema + API | 0/? | Not started | - |
 | 3. Agent Context Injection | 0/? | Not started | - |
 | 4. UI + Polish | 0/? | Not started | - |
+
+## Backlog
+
+### Phase 999.1: Company Issue Prefix Rename UI (BACKLOG)
+
+**Goal:** Allow admins to rename a company's issue prefix (e.g. RAI → RSM) through the UI, with automatic cascade to all existing issue identifiers
+**Requirements:** TBD
+**Context:** Currently requires a direct DB update via `fly proxy` + psql. The data change is two SQL statements in a transaction: `UPDATE companies SET issue_prefix = $new` and `UPDATE issues SET identifier = REPLACE(identifier, $old||'-', $new||'-') WHERE company_id = $id`. The `updateCompanySchema` validator needs `issuePrefix` added (uppercase, 2–6 chars, unique constraint already exists on DB). The `update()` service method needs to cascade the rename to issues. UI: a text input in company settings.
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
