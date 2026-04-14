@@ -34,7 +34,7 @@ Paperclip is Roland's AI agent orchestration platform (TypeScript monorepo on Fl
 
 ## Recent Changes
 
+- 2026-04-13: **Phase 01 complete** — Slack notifications verified working (defaultChannelId C099G1364SZ in #agentic-accelerator)
+- 2026-04-13: Slack plugin `defaultChannelId` must be set to the channel ID (e.g. C099G1364SZ), not the channel name
 - 2026-04-12: Phase 1.5 (Weekly Planning Agent) inserted into roadmap between Phase 1 and Phase 2
-- 2026-04-12: Phase 1 execution started — Wave 1 agent fixing CI branch + removing PGLite mount + adding health checks
-- 2026-04-12: Discovered production is further along than expected (app deployed, DB attached, migrations run, health endpoint live)
-- 2026-04-12: Project initialized with 4-phase roadmap; Phase 1.5 inserted making it 5 phases
+- 2026-04-12: Phase 1 execution started — CI/CD, Postgres, health checks, custom domain, Slack plugin all complete
