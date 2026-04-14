@@ -1,29 +1,36 @@
 {
   "version": "1.0",
-  "timestamp": "2026-04-14T00:58:14.087Z",
+  "timestamp": "2026-04-14T05:13:00.916Z",
   "phase": "1.5",
   "phase_name": "weekly-planning-agent",
-  "phase_dir": ".planning/phases/1.5-weekly-planning-agent",
+  "phase_dir": ".planning/phases/01.5-weekly-planning-agent",
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Verify Slack notifications working (defaultChannelId = C099G1364SZ)", "status": "done", "commit": "session"},
-    {"id": 2, "name": "Fix Rainbow Startup Mafia prefix RAI → RSM (company + 2 issues)", "status": "done", "commit": "session"},
-    {"id": 3, "name": "Add backlog item 999.1: company issue prefix rename UI", "status": "done", "commit": "7c6f07aa"}
+    {"id": 1, "name": "fix(plugins): allow agents to discover and execute plugin tools", "status": "done", "commit": "15f7ed5a"},
+    {"id": 2, "name": "Fork paperclip-plugin-slack — add send_message + send_dm tools", "status": "done", "commit": "local at /Users/rsieb/gits/paperclip-plugin-slack"}
   ],
   "remaining_tasks": [
-    {"id": 4, "name": "Plan Phase 1.5: Weekly Planning Agent", "status": "not_started"}
+    {"id": 3, "name": "git push master to deploy auth fix to production", "status": "not_started"},
+    {"id": 4, "name": "Publish forked Slack plugin and reinstall on production", "status": "not_started"},
+    {"id": 5, "name": "Run /gsd-discuss-phase 1.5 (Phase 1.5 CONTEXT.md not written yet)", "status": "not_started"},
+    {"id": 6, "name": "Investigate Chief of Staff empty AGENTS.md", "status": "not_started"}
   ],
   "blockers": [],
-  "human_actions_pending": [],
+  "human_actions_pending": [
+    {"action": "git push master", "context": "Auth fix (commit 15f7ed5a) removes assertBoard from plugin tool endpoints. Push triggers GitHub Actions deploy.", "blocking": true},
+    {"action": "Publish and reinstall forked Slack plugin", "context": "Fork at /Users/rsieb/gits/paperclip-plugin-slack has send_message + send_dm tools. Build clean, 97 tests pass. Needs npm publish (or direct install) and reinstall on production replacing paperclip-plugin-slack.", "blocking": true}
+  ],
   "decisions": [
-    {"decision": "Slack defaultChannelId must be channel ID not name", "rationale": "C099G1364SZ for #agentic-accelerator — notifications now confirmed working", "phase": "01"},
-    {"decision": "Issue prefix rename requires two SQL updates in transaction", "rationale": "companies.issue_prefix + REPLACE on issues.identifier; no API support yet — done via fly proxy + psql", "phase": "backlog"},
-    {"decision": "Proxy pgbouncer via fly proxy for direct psql access", "rationale": "fly proxy 5454:5432 pgbouncer.host --app paperclip-icy-fog-8513 works cleanly for one-off DB ops", "phase": "ops"}
+    {"decision": "Forked paperclip-plugin-slack instead of writing a new local plugin", "rationale": "Reuses existing WebClient initialization and bot token resolution. send_message calls postMessage directly; send_dm calls conversations.open first.", "phase": "1.5"},
+    {"decision": "Removed assertBoard from GET /plugins/tools and POST /plugins/tools/execute", "rationale": "Agents (type=agent) were getting 403. assertCompanyAccess on runContext is the correct gate for execute. Anonymous requests rejected with 401.", "phase": "1.5"},
+    {"decision": "Phase 1.5 is verify-not-build — Chief of Staff agent already exists in production", "rationale": "Roland confirmed agent is set up. Phase scope: document requirements, get Slack working, run first end-to-end test.", "phase": "1.5"},
+    {"decision": "Slack defaultChannelId must be channel ID not name (C099G1364SZ for #agentic-accelerator)", "rationale": "Notifications confirmed working in Phase 01", "phase": "01"},
+    {"decision": "DB ops pattern: fly proxy 5454:5432 pgbouncer.vmkq6097nlno35ln.flympg.net --app paperclip-icy-fog-8513 then psql", "rationale": "Needed for one-off DB ops, credentials from fly ssh console printenv DATABASE_URL", "phase": "ops"}
   ],
   "uncommitted_files": [],
-  "next_action": "Run /gsd-discuss-phase 1.5 to define the Weekly Planning Agent requirements and approach",
-  "context_notes": "Phase 01 is fully complete — production infra, Slack notifications, custom domain all working. Phase 1.5 (Weekly Planning Agent for Midstage Institute) is the next active milestone. No plan exists yet — start with discuss-phase or plan-phase. DB ops pattern: fly proxy 5454:5432 pgbouncer.vmkq6097nlno35ln.flympg.net --app paperclip-icy-fog-8513 then psql with credentials from fly ssh console printenv DATABASE_URL."
+  "next_action": "git push master (deploy auth fix), then publish forked Slack plugin, then run /gsd-discuss-phase 1.5",
+  "context_notes": "gsd-discuss-phase 1.5 was interrupted mid-session to fix Slack tool injection. No CONTEXT.md written for Phase 1.5 yet. The phase directory .planning/phases/01.5-weekly-planning-agent exists but is empty. Chief of Staff agent has empty AGENTS.md — investigate separately. Fork of Slack plugin is local-only at /Users/rsieb/gits/paperclip-plugin-slack."
 }
